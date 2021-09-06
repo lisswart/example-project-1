@@ -1,30 +1,26 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+// import { BrowserRouter, Switch, Route } from "react-router-dom";
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0);
+
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
+    fetch("/books")
+      .then(r => r.json())
+      .then(books => setBooks(books));
   }, []);
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Switch>
-          <Route path="/testing">
-            <h1>Test Route</h1>
-          </Route>
-          <Route path="/">
-            <h1>Page Count: {count}</h1>
-          </Route>
-        </Switch>
-      </div>
-    </BrowserRouter>
+    <div>
+      <h1>Bookshelf</h1>
+      {
+        books.map(book => 
+          <p key={book.id}>{book.title}</p>)
+      }
+    </div>
   );
 }
 
-export default App;
+export default App
